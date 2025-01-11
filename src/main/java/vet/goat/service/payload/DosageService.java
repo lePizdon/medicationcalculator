@@ -1,6 +1,7 @@
 package vet.goat.service.payload;
 
 import org.springframework.stereotype.Service;
+import vet.goat.dto.DosageRange;
 import vet.goat.entity.payload.Dosage;
 import vet.goat.exceptions.NoSuchDosageException;
 
@@ -22,4 +23,7 @@ public interface DosageService {
     Optional<Dosage> getDosageById(Long id);
 
     void deleteDosage(Dosage dosage);
+
+
+    DosageRange getDosageValue(String medicationName, String animalType, String injectionType);
 }
