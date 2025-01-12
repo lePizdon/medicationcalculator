@@ -26,4 +26,6 @@ public interface DosageService {
 
 
     DosageRange getDosageValue(String medicationName, String animalType, String injectionType);
+
+    Optional<Double> getActiveSubstanceByFullParams(String medicationName, String animalType, String injectionType);
 }

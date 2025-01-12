@@ -32,4 +32,10 @@ public interface DosageRepository extends JpaRepository<Dosage, Long> {
             "AND animal_type = :animalType", nativeQuery = true)
     DosageRange getDosageValue(@Param("name") String medicationName, @Param("injection")String injectionType,
                                @Param("animalType")String animalType);
+
+    @Query(value = "SELECT medications.active_substance FROM medications " +
+            "JOIN dosages ON medications.id = dosages.medication_id " +
+            "WHERE medications.name = :name AND dosages.animal_type = :animalType " +
+            "AND medications.injection_type = :injectionType", nativeQuery = true)
+    Optional<Double> getSubstance(String medicationName, String animalType, String injectionType);
 }

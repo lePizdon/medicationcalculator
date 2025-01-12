@@ -29,7 +29,8 @@ public class MedicationSearchController {
             Medication medication = medicationService.getMedicationByFullParams(name, injectionType);
             return ResponseEntity.ok(medication);
         } catch (NoSuchMedicationException e) {
-            throw  new IllegalArgumentException( e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
         }
     }
 }

@@ -27,4 +27,10 @@ public class MedicationEditController {
         medicationService.create(medication);
         return ResponseEntity.ok(medication);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<Medication> addMedication(@RequestBody @Valid Medication medication) {
+        medicationService.updateMedication(medication);
+        return ResponseEntity.ok(medication);
+    }
 }

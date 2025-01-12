@@ -34,6 +34,10 @@ public class Medication {
     @ValidEnum(message = "{entity.validation.enum.type}")
     private InjectionType injectionType;
 
+    @Column(name = "active_substance", nullable = false)
+    @NotNull(message = "{entity.validation.notnull}")
+    private Double activeSubstance;
+
     @OneToMany(mappedBy = "medication", cascade = CascadeType.ALL)
     private List<Dosage> dosages;
 
