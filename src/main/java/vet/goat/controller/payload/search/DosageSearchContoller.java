@@ -20,7 +20,7 @@ public class DosageSearchContoller {
     private final DosageServiceImpl dosageService;
 
     @GetMapping("/fullparameters/{name}")
-    public ResponseEntity<Dosage> getDosageByFullParams(@Param("name") String medicationName, String animalType,
+    public ResponseEntity<Dosage> getDosageByFullParams(@PathVariable("name") String medicationName, String animalType,
                                                         @Valid String injectionType) {
         try {
             Dosage dosage = dosageService.getDosageByFullParams(medicationName,animalType,injectionType);
@@ -32,12 +32,12 @@ public class DosageSearchContoller {
     }
 
     @GetMapping("/{name}")
-    public List<Dosage> getDosagesByName(@Param("name") String name) {
+    public List<Dosage> getDosagesByName(@PathVariable("name") String name) {
         return dosageService.getDosagesByName(name);
     }
 
     @GetMapping("/pair/{name}")
-    public List<Dosage> getDosagesByPair(@Param("name") String medicationName, String injectionType) {
+    public List<Dosage> getDosagesByPair(@PathVariable("name") String medicationName, String injectionType) {
         return dosageService.getDosagesByPair(medicationName, injectionType);
     }
 

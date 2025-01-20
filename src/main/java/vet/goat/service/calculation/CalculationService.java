@@ -24,10 +24,12 @@ public class CalculationService {
         return result;
     }
 
-    public Map<String, Double> getActiveDosageMlByFullParams(String medicationName, String animalType, String injectionType,
-                                                Double weight) throws ActiveSubstanceNotPresented {
-        Double dbActiveSubstanceValue = dosageService.getActiveSubstanceByFullParams(medicationName, animalType, injectionType)
-                .orElseThrow(() -> new ActiveSubstanceNotPresented("{calculation.activesubstance.notpresented}"));
+    public Map<String, Double> getActiveDosageMlByFullParams(String medicationName, String animalType,
+                                                             String injectionType, Double weight)
+            throws ActiveSubstanceNotPresented {
+        Double dbActiveSubstanceValue = dosageService
+                .getActiveSubstanceByFullParams(medicationName, animalType, injectionType)
+                .orElseThrow(() -> new ActiveSubstanceNotPresented("{calculation.active.substance.not.presented}"));
 
         DosageRange dbValue = dosageService.getDosageValue(medicationName, animalType, injectionType);
 
