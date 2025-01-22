@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vetmed
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  application:
+    name: zalupo
+logging:
+  level:
+    web: TRACE
