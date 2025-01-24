@@ -1,0 +1,42 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/
+                   ms/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="V0-1" author="lePizdon">
+        <preConditions>
+            <not>
+                <tableExists tableName="medications"/>
+            </not>
+        </preConditions>
+        <comment>Создание таблицы с лекарственными веществами, содержит тип инъекции и активное вещество</comment>
+        <createTable tableName="medications" schemaName="vetmed">
+            <column name="id" type="serial" autoIncrement="true" defaultValueComputed="GENERATED ALWAYS AS IDENTITY">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="injection_type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_substance" type="double"/>
+        </createTable>
+        <addUniqueConstraint tableName="medications" columnNames="name, injection_type"
+                             constraintName="uq_medication_columns_relation"/>
+    </changeSet>
+
+    <changeSet id="V0-1.1" author="lePizdon">
+        <preConditions>
+            <not>
+                <tableExists tableName="dosages"/>
+            </not>
+        </preConditions>
+        <createTable tableName="dosages" schemaName="vetmed">
+            <column name="id" autoIncrement="true" type="serial" defaultValue="">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

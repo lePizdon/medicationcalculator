@@ -1,11 +1,16 @@
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.hibernate.default_schema: public
   datasource:
-    url: jdbc:postgresql://localhost:5432/vetmed
     username: postgres
-    password: 1234
-    driver-class-name: org.postgresql.Driver
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
   application:
-    name: zalupo
+    name: web-application
 logging:
   level:
-    web: TRACE
+    org.hibernate.sql: DEBUG
