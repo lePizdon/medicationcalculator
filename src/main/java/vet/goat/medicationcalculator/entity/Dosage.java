@@ -1,5 +1,6 @@
 package vet.goat.medicationcalculator.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,17 +24,25 @@ public class Dosage {
 
     @Column(name = "animal_type", nullable = false)
     @NotNull(message = "{entity.validation.notnull}")
-    @Size(min = 3, max = 15, message = "{entity.validation.size}")
+    @Size(min = 3, max =  15, message = "{entity.validation.size}")
     private String animalType;
 
-    @Column(name = "medication_name")
+    @Column(name= "medication_id", nullable = false)
+    @NotNull(message = "{entity.validation.notnull}")
+    private Long medicationId;
+
+    @Column(name = "medication_name", nullable = false)
+    @NotNull(message = "{entity.validation.notnull}")
     private String medicationName;
 
-    @Column(name = "medication_injection_type")
+    @Column(name = "medication_injection_type", nullable = false)
+    @NotNull(message = "{entity.validation.notnull}")
     private Medication.InjectionType medicationInjectionType;
 
     @ManyToOne
     @JoinColumn(name = "medication_id")
+    @JsonIgnore
+    @Transient
     private Medication medication;
 }
 

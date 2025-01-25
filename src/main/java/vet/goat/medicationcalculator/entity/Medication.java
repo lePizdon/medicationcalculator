@@ -1,5 +1,6 @@
 package vet.goat.medicationcalculator.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -40,6 +41,8 @@ public class Medication {
     private Double activeSubstance;
 
     @OneToMany(mappedBy = "medication", cascade = CascadeType.ALL)
+    @Transient
+    @JsonIgnore
     private List<Dosage> dosages;
 
     public enum InjectionType {
