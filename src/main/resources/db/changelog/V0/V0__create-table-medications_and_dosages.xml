@@ -11,7 +11,7 @@
         </preConditions>
         <comment>Создание таблицы с лекарственными веществами, содержит тип инъекции и активное вещество</comment>
         <createTable tableName="medications" schemaName="vetmed">
-            <column name="id" type="serial" autoIncrement="true" defaultValueComputed="GENERATED ALWAYS AS IDENTITY">
+            <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="name" type="text">
