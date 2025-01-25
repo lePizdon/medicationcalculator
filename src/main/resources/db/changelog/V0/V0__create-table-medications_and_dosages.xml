@@ -1,16 +1,17 @@
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/
-                   ms/dbchangelog/dbchangelog-3.4.xsd">
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
 
     <changeSet id="V0-1" author="lePizdon">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="medications"/>
             </not>
         </preConditions>
         <comment>Создание таблицы с лекарственными веществами, содержит тип инъекции и активное вещество</comment>
-        <createTable tableName="medications" schemaName="vetmed">
+        <createTable tableName="medications" schemaName="public">
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -27,16 +28,61 @@
     </changeSet>
 
     <changeSet id="V0-1.1" author="lePizdon">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="dosages"/>
             </not>
         </preConditions>
-        <createTable tableName="dosages" schemaName="vetmed">
-            <column name="id" autoIncrement="true" type="serial" defaultValue="">
+        <comment>Создание таблицы с дозировками, содержит начальную и конечную дозировку,
+                 конечная дозировка может быть = 0, согласно комментариям врачей</comment>
+        <createTable tableName="dosages" schemaName="public">
+            <column name="id" type="serial">
                 <constraints primaryKey="true"/>
             </column>
+            <column name="start_value" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_value" type="double"/>
+            <column name="animal_type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="medication_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="medication_name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="medication_injection_type" type="text">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
+    </changeSet>
+
+    <changeSet id="V0-1.1.1" author="lePizdon">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_medication_id"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="dosages" baseColumnNames="medication_id"
+                                 constraintName="fk_medication_id"
+                                 referencedTableName="medications"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="V0-1.1.2" author="lePizdon">
+        <preConditions onFail="MARK_RAN">
+            <not>
+            <foreignKeyConstraintExists foreignKeyName="fk_medication_relation"/>
+            </not>
+        </preConditions>
+        <comment>Настройка связи полей между таблицами дозировок и лекарств по уникальным парам
+                 название+тип инъекции</comment>
+        <addForeignKeyConstraint baseTableName="dosages"
+                                 baseColumnNames="medication_name, medication_injection_type"
+                                 constraintName="fk_medication_relation"
+                                 referencedTableName="medications"
+                                 referencedColumnNames="name, injection_type"/>
     </changeSet>
 
 </databaseChangeLog>
