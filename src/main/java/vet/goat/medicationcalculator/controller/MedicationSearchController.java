@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import vet.goat.medicationcalculator.entity.Medication;
 import vet.goat.medicationcalculator.service.MedicationServiceImpl;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping(("/medication"))
+@RequestMapping(("/medication/search"))
 public class MedicationSearchController {
     private MedicationServiceImpl medicationService;
 
@@ -21,13 +22,21 @@ public class MedicationSearchController {
         this.medicationService = medicationService;
     }
 
-    @GetMapping("/zhopi/{id}")
-    public ResponseEntity<Medication> getMedicationsById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(medicationService.getMedicationById(id));
+        @GetMapping("/{medicationId}")
+    public ResponseEntity<Medication> getMedicationsById(@PathVariable("searchableMedicationId") Long id) {
+        Medication result = medicationService.getMedicationById(id);
+        if (result == null) {
+            return ResponseEntity.status(403).build();
+        }
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{name}")
     public ResponseEntity<List<Medication>> getMedicationByName(@PathVariable("name") String name) {
-        return ResponseEntity.ok(medicationService.getMedicationByName(name));
+        List<Medication> resultList = medicationService.getMedicationByName(name);
+        if (resultList.isEmpty()) {
+            return ResponseEntity.status(403).build();
+        }
+        return ResponseEntity.ok(resultList);
     }
 }

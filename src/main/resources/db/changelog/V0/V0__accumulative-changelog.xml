@@ -5,5 +5,5 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
 
     <include file="V0__create-table-medications_and_dosages.xml" relativeToChangelogFile="true"/>
-
+    <include file="V0__fill-tables-with-test-data.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

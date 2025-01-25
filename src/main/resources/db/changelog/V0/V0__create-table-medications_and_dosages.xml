@@ -24,7 +24,7 @@
             </column>
             <column name="active_substance" type="double"/>
         </createTable>
-        <addUniqueConstraint tableName="medications" columnNames="name, injection_type"
+        <addUniqueConstraint tableName="medications" columnNames="id, name, injection_type"
                              constraintName="uq_medication_columns_relation"/>
     </changeSet>
 
@@ -62,28 +62,17 @@
     <changeSet id="V0-1.1.1" author="lePizdon">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_medication_id"/>
-            </not>
-        </preConditions>
-        <addForeignKeyConstraint baseTableName="dosages" baseColumnNames="medication_id"
-                                 constraintName="fk_medication_id"
-                                 referencedTableName="medications"
-                                 referencedColumnNames="id"/>
-    </changeSet>
-
-    <changeSet id="V0-1.1.2" author="lePizdon">
-        <preConditions onFail="MARK_RAN">
-            <not>
             <foreignKeyConstraintExists foreignKeyName="fk_medication_relation"/>
             </not>
         </preConditions>
         <comment>Настройка связи полей между таблицами дозировок и лекарств по уникальным парам
                  название+тип инъекции</comment>
         <addForeignKeyConstraint baseTableName="dosages"
-                                 baseColumnNames="medication_name, medication_injection_type"
+                                 baseColumnNames="medication_id, medication_name, medication_injection_type"
                                  constraintName="fk_medication_relation"
                                  referencedTableName="medications"
-                                 referencedColumnNames="name, injection_type"/>
+                                 referencedColumnNames="id, name, injection_type"
+                                 onDelete="CASCADE" onUpdate="CASCADE"/>
     </changeSet>
 
 </databaseChangeLog>

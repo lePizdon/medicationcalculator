@@ -35,13 +35,13 @@ public class DosageSearchContoller {
         return dosageService.getDosagesByName(name);
     }
 
-    @GetMapping("/pair/{name}")
-    public List<Dosage> getDosagesByPair(@PathVariable("name") String medicationName, String injectionType) {
+    @GetMapping("/pair/{medicationName}")
+    public List<Dosage> getDosagesByPair(@PathVariable("medicationName") String medicationName, String injectionType) {
         return dosageService.getDosagesByPair(medicationName, injectionType);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Dosage> getDosageById(@PathVariable Long id) {
+    @GetMapping("/{dosageId}")
+    public ResponseEntity<Dosage> getDosageById(@PathVariable("dosageId") Long id) {
         Dosage dosage = null;
         try {
             dosage = dosageService.getDosageById(id).orElseThrow(() ->

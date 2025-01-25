@@ -1,0 +1,40 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <preConditions onFail="WARN">
+        <tableExists tableName="medications" schemaName="public"/>
+        <tableExists tableName="dosages" schemaName="public"/>
+    </preConditions>
+
+    <changeSet id="V0-2.1" author="lePizdon">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM medications
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="fill-medications.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="V0-2.2" author="lePizdon">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM information_schema.triggers
+                WHERE trigger_name = 'autofill_dosages_medication_fields'
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="create-dosages-insert-trigger.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="V0-2.3" author="">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM dosages
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="fill-dosages.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+</databaseChangeLog>
