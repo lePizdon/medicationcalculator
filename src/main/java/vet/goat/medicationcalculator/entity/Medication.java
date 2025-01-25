@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vet.goat.medicationcalculator.entity.validation.ValidEnum;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Medication {
     @Column(name = "injection_type", nullable = false)
     @NotNull(message = "{entity.validation.notnull}")
     @Enumerated(EnumType.STRING)
-//    @ValidEnum(message = "{entity.validation.enum.type}")
+    @ValidEnum(message = "{entity.validation.enum.type}")
     private InjectionType injectionType;
 
     @Column(name = "active_substance", nullable = false)

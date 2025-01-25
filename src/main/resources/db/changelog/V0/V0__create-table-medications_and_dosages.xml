@@ -10,7 +10,8 @@
                 <tableExists tableName="medications"/>
             </not>
         </preConditions>
-        <comment>Создание таблицы с лекарственными веществами, содержит тип инъекции и активное вещество</comment>
+        <comment>Создание таблицы с лекарственными веществами,
+            содержит тип инъекции и активное вещество</comment>
         <createTable tableName="medications" schemaName="public">
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
