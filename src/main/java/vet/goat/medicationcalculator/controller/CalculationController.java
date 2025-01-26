@@ -1,37 +1,43 @@
 package vet.goat.medicationcalculator.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vet.goat.medicationcalculator.exceptions.ActiveSubstanceNotPresented;
 import vet.goat.medicationcalculator.service.CalculationService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController("/calculate")
-@RequiredArgsConstructor
+@RestController
+@RequestMapping("api/calculate")
 public class CalculationController {
     private final CalculationService calculationService;
 
-    @GetMapping("/dosage/{medicationName}")
-    public ResponseEntity<Map<String, Double>> dosageByFullParams(@PathVariable String medicationName,
-                                                                  String animalType, String injectionType,
-                                                                  Double weight) {
+    @Autowired
+    public CalculationController(CalculationService calculationService) {
+        this.calculationService = calculationService;
+    }
+
+    @GetMapping("/param")
+    public ResponseEntity<Map<String, Double>> dosageByFullParams(@RequestParam String medicationName,
+                                                                  @RequestParam(required = false) String injectionType,
+                                                                  @RequestParam(required = false) String animalType,
+                                                                  @RequestParam(required = false) Double weight) {
         Map<String, Double> res = calculationService
-                .calculateDosage(medicationName, animalType, injectionType, weight);
+                .calculateDosage(medicationName, injectionType, animalType, weight);
         if (res.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(res);
     }
 
-    @GetMapping("/dosage/active/{medicationName}")
-    public ResponseEntity<Map<String, Double>> getActiveDosageMlByFullParams(@PathVariable String medicationName,
-                                                                             String animalType, String injectionType,
-                                                                             Double weight) {
+    @GetMapping("/active")
+    public ResponseEntity<Map<String, Double>> getActiveDosageMlByFullParams(@RequestParam String medicationName,
+                                                                             @RequestParam String animalType,
+                                                                             @RequestParam String injectionType,
+                                                                             @RequestParam Double weight) {
         Map<String, Double> result = new HashMap<>();
         try {
             result = calculationService.getActiveDosageMlByFullParams(medicationName, animalType,

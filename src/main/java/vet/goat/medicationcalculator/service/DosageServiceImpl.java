@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vet.goat.medicationcalculator.dto.DosageRange;
 import vet.goat.medicationcalculator.entity.Dosage;
+import vet.goat.medicationcalculator.entity.Medication;
 import vet.goat.medicationcalculator.exceptions.NoSuchDosageException;
 import vet.goat.medicationcalculator.repository.DosageRepository;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +19,17 @@ public class DosageServiceImpl implements DosageService {
     private final DosageRepository repo;
 
     @Override
-    public Dosage getDosageByFullParams(String medicationName, String animalType, String injectionType) throws NoSuchDosageException {
-        return repo.getByFullParams(medicationName, animalType, injectionType).orElseThrow(() ->
-                new NoSuchDosageException("{dosage.get.fullparams.null}"));
+    public List<Dosage> getDosageByFullParams(String medicationName, String animalType, String injectionType) throws NoSuchDosageException {
+        if (animalType != null && injectionType != null) {
+            List<Dosage> resultList = new ArrayList<>();
+            resultList.add(repo.getByFullParams(medicationName, animalType, injectionType));
+            return resultList;
+        } else if (animalType != null) {
+            return repo.getByPairAnimal(medicationName, animalType);
+        } else if(injectionType != null) {
+            return repo.getByPair(medicationName, injectionType);
+        }
+        return repo.getByName(medicationName);
     }
 
     @Override
@@ -53,12 +64,22 @@ public class DosageServiceImpl implements DosageService {
 
 
     @Override
-    public DosageRange getDosageValue(String medicationName, String animalType, String injectionType) {
-        return repo.getDosageValue(medicationName, animalType, injectionType);
+    public DosageRange getDosageValue(String medicationName, String injectionType, String animalType) {
+        return repo.getDosageValue(medicationName, injectionType, animalType);
     }
 
     @Override
     public Optional<Double> getActiveSubstanceByFullParams(String medicationName, String animalType, String injectionType) {
         return repo.getSubstance(medicationName, animalType, injectionType);
+    }
+
+    @Override
+    public List<Dosage> findAll() {
+        return repo.findAll();
+    }
+
+    @Override
+    public void deleteDosageById(Long id) {
+        repo.deleteById(id);
     }
 }

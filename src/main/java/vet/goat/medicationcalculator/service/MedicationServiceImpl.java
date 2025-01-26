@@ -38,4 +38,9 @@ public class MedicationServiceImpl implements MedicationService {
     public Medication getMedicationById(Long id) {
         return repo.findById(id).orElse(null);
     }
+
+    @Override
+    public List<Medication> findAll() {
+        return repo.findAll();
+    }
 }

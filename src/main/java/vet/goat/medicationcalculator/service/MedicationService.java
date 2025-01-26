@@ -17,4 +17,6 @@ public interface MedicationService{
     void create(Medication medication);
 
     Medication getMedicationById(Long id);
+
+    List<Medication> findAll();
 }

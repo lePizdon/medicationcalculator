@@ -1,6 +1,7 @@
 package vet.goat.medicationcalculator.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vet.goat.medicationcalculator.dto.DosageRange;
 import vet.goat.medicationcalculator.exceptions.ActiveSubstanceNotPresented;
@@ -8,13 +9,16 @@ import vet.goat.medicationcalculator.exceptions.ActiveSubstanceNotPresented;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class CalculationService {
     private final DosageServiceImpl dosageService;
 
-    public Map<String, Double> calculateDosage(String medicationName, String animalType, String injectionType,
+    @Autowired
+    public CalculationService(DosageServiceImpl dosageService) {
+        this.dosageService = dosageService;
+    }
+    public Map<String, Double> calculateDosage(String medicationName, String injectionType, String animalType,
                                                Double weight) {
-        DosageRange range = dosageService.getDosageValue(medicationName, animalType, injectionType);
+        DosageRange range = dosageService.getDosageValue(medicationName, injectionType, animalType);
         Map<String, Double> result = new HashMap<>();
         result.put("start_value", range.startValue()*weight);
         if (range.endValue() != null) {

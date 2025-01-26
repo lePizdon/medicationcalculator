@@ -1,23 +1,25 @@
 package vet.goat.medicationcalculator.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vet.goat.medicationcalculator.entity.Medication;
 import vet.goat.medicationcalculator.service.MedicationServiceImpl;
 
-@RestController("/medication/edit")
-@RequiredArgsConstructor
+@RestController
+@RequestMapping("api/edit/medication")
 public class MedicationEditController {
     private final MedicationServiceImpl medicationService;
 
-    @PostMapping("/{medicationId}")
-    public ResponseEntity<Medication> editMedication(@PathVariable("medicationId") Long id,
-                                                     @RequestBody @Valid Medication medication) {
+    @Autowired
+    MedicationEditController(MedicationServiceImpl medicationService) {
+        this.medicationService = medicationService;
+    }
+    @PostMapping
+    public ResponseEntity<Medication> editMedication(@RequestBody @Valid Medication medication) {
         medicationService.updateMedication(medication);
         return ResponseEntity.ok(medication);
     }

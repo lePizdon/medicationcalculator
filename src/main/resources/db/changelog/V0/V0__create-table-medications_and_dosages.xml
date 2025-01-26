@@ -57,6 +57,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addUniqueConstraint tableName="dosages"
+                             columnNames="animal_type, medication_name, medication_injection_type"
+                             constraintName="uq_dosage_medication_columns_relation"/>
     </changeSet>
 
     <changeSet id="V0-1.1.1" author="lePizdon">

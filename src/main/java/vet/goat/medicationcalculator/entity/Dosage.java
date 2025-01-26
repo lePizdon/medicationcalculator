@@ -1,26 +1,33 @@
 package vet.goat.medicationcalculator.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "dosages",
-       uniqueConstraints = {@UniqueConstraint(columnNames = {"animal_type", "medication_name",
-               "medication_injection_type"})}, schema = "public")
+       uniqueConstraints = {@UniqueConstraint(columnNames =
+               {"animal_type", "medication_name", "medication_injection_type"})},
+       schema = "public")
+@Builder
 public class Dosage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "value", nullable = false)
+    @Column(name = "start_value", nullable = false)
     @NotNull(message = "{entity.validation.notnull}")
-    private Double value;
+    private Double startValue;
+
+    @Column(name = "end_value")
+    private Double endValue;
 
     @Column(name = "animal_type", nullable = false)
     @NotNull(message = "{entity.validation.notnull}")
@@ -31,19 +38,12 @@ public class Dosage {
     @NotNull(message = "{entity.validation.notnull}")
     private Long medicationId;
 
-    @Column(name = "medication_name", nullable = false)
-    @NotNull(message = "{entity.validation.notnull}")
+    @Column(name = "medication_name")
     private String medicationName;
 
-    @Column(name = "medication_injection_type", nullable = false)
-    @NotNull(message = "{entity.validation.notnull}")
+    @Column(name = "medication_injection_type")
+    @Enumerated(EnumType.STRING)
     private Medication.InjectionType medicationInjectionType;
-
-    @ManyToOne
-    @JoinColumn(name = "medication_id")
-    @JsonIgnore
-    @Transient
-    private Medication medication;
 }
 
 

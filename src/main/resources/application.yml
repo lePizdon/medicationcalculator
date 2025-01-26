@@ -13,4 +13,4 @@ spring:
     change-log: classpath:db/changelog/main-changelog.xml
 logging:
   level:
-    org.hibernate.sql: DEBUG
+    web: DEBUG
