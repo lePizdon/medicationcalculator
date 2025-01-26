@@ -22,9 +22,9 @@ public class CalculationController {
 
     @GetMapping("/param")
     public ResponseEntity<Map<String, Double>> dosageByFullParams(@RequestParam String medicationName,
-                                                                  @RequestParam(required = false) String injectionType,
-                                                                  @RequestParam(required = false) String animalType,
-                                                                  @RequestParam(required = false) Double weight) {
+                                                                  @RequestParam String injectionType,
+                                                                  @RequestParam String animalType,
+                                                                  @RequestParam Double weight) {
         Map<String, Double> res = calculationService
                 .calculateDosage(medicationName, injectionType, animalType, weight);
         if (res.isEmpty()) {
