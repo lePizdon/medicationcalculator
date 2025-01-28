@@ -20,5 +20,7 @@ public class Authority {
     @NotNull(message = "{entity.validation.notnull}")
     private String authorityValue;
 
-
+    public Authority(String authorityValue) {
+        this.authorityValue = authorityValue;
+    }
 }
