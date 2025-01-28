@@ -1,0 +1,86 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <changeSet id="V0-3.0" author="lePizdon">
+        <preConditions onFail="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                    SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = 'security'
+                </sqlCheck>
+        </preConditions>
+        <sql>
+            CREATE SCHEMA security;
+        </sql>
+    </changeSet>
+
+    <changeSet id="V0-3.1" author="lePizdon">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="authority" schemaName="security"/>
+            </not>
+        </preConditions>
+        <createTable tableName="authority" schemaName="security">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="authority_value" type="text">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="V0-3.2" author="lePizdon">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users" schemaName="security"/>
+            </not>
+        </preConditions>
+        <createTable tableName="users" schemaName="security">
+            <column name="id" type="serial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_name" type="text">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="user_password_hash" type="varchar(70)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="VO-3.3" author="lePizdon">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users_authority" schemaName="security"/>
+            </not>
+        </preConditions>
+        <createTable tableName="users_authority" schemaName="security">
+            <column name="id" type="serial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="id_user" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_authority" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="users_authority" baseColumnNames="id_user"
+                                 baseTableSchemaName="security"
+                                 constraintName="fk_user_id"
+                                 referencedTableSchemaName="security"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="users_authority" baseColumnNames="id_authority"
+                                 baseTableSchemaName="security"
+                                 constraintName="fk_authority_id"
+                                 referencedTableSchemaName="security"
+                                 referencedTableName="authority"
+                                 referencedColumnNames="id"/>
+        <addUniqueConstraint tableName="users_authority" columnNames="id_user, id_authority"
+                             schemaName="security"
+                             constraintName="uq_users_authority_relation"/>
+    </changeSet>
+</databaseChangeLog>

@@ -6,4 +6,6 @@
 
     <include file="V0__create-table-medications_and_dosages.xml" relativeToChangelogFile="true"/>
     <include file="V0__fill-tables-with-test-data.xml" relativeToChangelogFile="true"/>
+    <include file="V0__create-security-tables-user-and-authority.xml" relativeToChangelogFile="true"/>
+    <include file="V0__insert-manager-user.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

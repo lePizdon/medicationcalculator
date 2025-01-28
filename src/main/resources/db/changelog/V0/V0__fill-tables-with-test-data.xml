@@ -28,7 +28,7 @@
         <sqlFile path="create-dosages-insert-trigger.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
-    <changeSet id="V0-2.3" author="">
+    <changeSet id="V0-2.3" author="lePizdon">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 SELECT COUNT(*) FROM dosages

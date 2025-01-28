@@ -13,4 +13,5 @@ spring:
     change-log: classpath:db/changelog/main-changelog.xml
 logging:
   level:
+    org.springframework.security: DEBUG
     web: DEBUG
