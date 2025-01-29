@@ -4,18 +4,15 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
 
-    <changeSet id="V0-4.0" author="lePizdon">
+    <changeSet id="V0-5.0" author="lePizdon">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
-                SELECT
-                    SUM(
-                        (SELECT COUNT(*) FROM security.users WHERE user_name = 'manager') +
-                        (SELECT COUNT(*) FROM security.authority WHERE authority_value = 'ROLE_MANAGER') +
-                        (SELECT COUNT(*) FROM security.users_authority)
-                    )
+                SELECT COUNT(*) FROM security.authority
+                         WHERE authority_value = 'ROLE_USER'
+                            OR authority_value = 'ROLE_DOCTOR'
             </sqlCheck>
         </preConditions>
-        <sqlFile path="pre-create-manager.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="pre-create-authorities.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
 </databaseChangeLog>
