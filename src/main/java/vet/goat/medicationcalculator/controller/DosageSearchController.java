@@ -1,13 +1,11 @@
 package vet.goat.medicationcalculator.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vet.goat.medicationcalculator.entity.Dosage;
-import vet.goat.medicationcalculator.entity.Medication;
-import vet.goat.medicationcalculator.exceptions.NoSuchDosageException;
+import vet.goat.medicationcalculator.exception.NoSuchDosageException;
 import vet.goat.medicationcalculator.service.DosageServiceImpl;
 
 import java.util.List;
@@ -44,9 +42,9 @@ public class DosageSearchController {
         }
     }
 
-    @GetMapping("/by/name")
-    public ResponseEntity<List<Dosage>> getDosagesByName(@RequestParam String name) {
-        List<Dosage> resultList = dosageService.getDosagesByName(name);
+    @GetMapping("/{dosageName}")
+    public ResponseEntity<List<Dosage>> getDosagesByName(@PathVariable("dosageName") String dosageName) {
+        List<Dosage> resultList = dosageService.getDosagesByName(dosageName);
         if (resultList.isEmpty()) {
             return ResponseEntity.status(402).build();
         }
@@ -63,10 +61,10 @@ public class DosageSearchController {
         return ResponseEntity.ok(resultList);
     }
 
-    @GetMapping("/by/id")
-    public ResponseEntity<Dosage> getDosageById(@RequestParam Long id) {
+    @GetMapping("/{dosageId}")
+    public ResponseEntity<Dosage> getDosageById(@PathVariable("dosageId") Long dosageId) {
         try {
-            Dosage dosage = dosageService.getDosageById(id).orElseThrow(() ->
+            Dosage dosage = dosageService.getDosageById(dosageId).orElseThrow(() ->
                     new NoSuchDosageException("{dosage.get.fullparams.null}"));
             return ResponseEntity.ok(dosage);
         } catch (NoSuchDosageException e) {

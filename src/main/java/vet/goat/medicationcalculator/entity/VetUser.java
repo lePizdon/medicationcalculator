@@ -2,6 +2,7 @@ package vet.goat.medicationcalculator.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,10 +22,12 @@ public class VetUser {
     private Long id;
 
     @Column(name = "user_name")
+    @Size(min = 4, max = 15)
     @NotNull(message = "{entity.validation.notnull}")
     private String userName;
 
     @Column(name = "user_password_hash")
+    @Size(min = 4, max = 13)
     @NotNull(message = "{entity.validation.notnull}")
     private String userPasswordHash;
 

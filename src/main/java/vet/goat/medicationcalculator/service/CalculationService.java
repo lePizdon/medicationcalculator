@@ -1,10 +1,9 @@
 package vet.goat.medicationcalculator.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vet.goat.medicationcalculator.dto.DosageRange;
-import vet.goat.medicationcalculator.exceptions.ActiveSubstanceNotPresented;
+import vet.goat.medicationcalculator.exception.ActiveSubstanceNotPresented;
 
 import java.util.*;
 

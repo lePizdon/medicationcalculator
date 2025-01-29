@@ -1,10 +1,9 @@
 package vet.goat.medicationcalculator.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vet.goat.medicationcalculator.exceptions.ActiveSubstanceNotPresented;
+import vet.goat.medicationcalculator.exception.ActiveSubstanceNotPresented;
 import vet.goat.medicationcalculator.service.CalculationService;
 
 import java.util.HashMap;

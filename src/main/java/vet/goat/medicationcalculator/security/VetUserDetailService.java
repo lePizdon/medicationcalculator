@@ -13,6 +13,7 @@ import vet.goat.medicationcalculator.entity.Authority;
 import vet.goat.medicationcalculator.entity.VetUser;
 import vet.goat.medicationcalculator.repository.AuthorityRepository;
 import vet.goat.medicationcalculator.repository.VetUserRepository;
+import vet.goat.medicationcalculator.security.exception.UnsupportedAuthority;
 import vet.goat.medicationcalculator.security.exception.VetUserAlreadyExists;
 import vet.goat.medicationcalculator.security.exception.VetUserDoesNotExist;
 
@@ -52,6 +53,7 @@ public class VetUserDetailService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User %s not found".formatted(username)));
     }
 
+    @Transactional
     public void createUser(VetUser vetUser) throws VetUserAlreadyExists {
         VetUser comparable = vetUserRepository.findVetUserByUserName(vetUser.getUserName()).orElse(null);
         if (comparable != null) {
@@ -81,6 +83,7 @@ public class VetUserDetailService implements UserDetailsService {
         }
     }
 
+    @Transactional
     public void editUser(VetUser vetUser) throws VetUserDoesNotExist, VetUserAlreadyExists {
         if (vetUserRepository.existsById(vetUser.getId())) {
             VetUser comparable = vetUserRepository.findById(vetUser.getId()).orElse(null);
@@ -91,6 +94,24 @@ public class VetUserDetailService implements UserDetailsService {
                         .formatted(bCryptPasswordEncoder
                                 .encode(vetUser.getUserPasswordHash())));
                 vetUserRepository.save(vetUser);
+            }
+        } else {
+            throw new VetUserDoesNotExist("{security.user.not.exists}");
+        }
+    }
+
+    @Transactional
+    public void addAuthority(Long userId, String authorityValue) throws VetUserDoesNotExist, UnsupportedAuthority {
+        VetUser comparable = vetUserRepository.findById(userId).orElse(null);
+        List<Authority> authorityValueList = authorityRepository.findByRole(authorityValue);
+        if (comparable != null) {
+            if (authorityValueList.isEmpty()) {
+                throw new UnsupportedAuthority("{security.authority.unsupported}");
+            } else {
+                List<Authority> authorities = comparable.getAuthorities();
+                authorities.add(authorityValueList.getFirst());
+                comparable.setAuthorities(authorities);
+                vetUserRepository.save(comparable);
             }
         } else {
             throw new VetUserDoesNotExist("{security.user.not.exists}");

@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vet.goat.medicationcalculator.dto.DosageRange;
 import vet.goat.medicationcalculator.entity.Dosage;
-import vet.goat.medicationcalculator.entity.Medication;
-import vet.goat.medicationcalculator.exceptions.NoSuchDosageException;
+import vet.goat.medicationcalculator.exception.NoSuchDosageException;
 import vet.goat.medicationcalculator.repository.DosageRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

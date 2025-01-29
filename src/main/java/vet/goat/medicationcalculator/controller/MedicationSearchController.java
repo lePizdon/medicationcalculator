@@ -28,18 +28,19 @@ public class MedicationSearchController {
         return ResponseEntity.ok(medications);
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<Medication> getMedicationById(@RequestParam Long id) {
-        Medication result = medicationService.getMedicationById(id);
+    @GetMapping("/{medicationId}")
+    public ResponseEntity<Medication> getMedicationById(@PathVariable("medicationId") Long medicationId) {
+        Medication result = medicationService.getMedicationById(medicationId);
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/name")
-    public ResponseEntity<List<Medication>> getMedicationByName(@RequestParam String name) {
-        List<Medication> result = medicationService.getMedicationByName(name);
+    @GetMapping("/{medicationName}")
+    public ResponseEntity<List<Medication>> getMedicationByName(@PathVariable("medicationName")
+                                                                    String medicationName) {
+        List<Medication> result = medicationService.getMedicationByName(medicationName);
         if (result.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

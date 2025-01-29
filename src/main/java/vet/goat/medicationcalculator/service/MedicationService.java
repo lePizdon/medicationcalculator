@@ -2,7 +2,7 @@ package vet.goat.medicationcalculator.service;
 
 import org.springframework.stereotype.Service;
 import vet.goat.medicationcalculator.entity.Medication;
-import vet.goat.medicationcalculator.exceptions.NoSuchMedicationException;
+import vet.goat.medicationcalculator.exception.NoSuchMedicationException;
 
 import java.util.List;
 

@@ -13,10 +13,13 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/edit/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_DOCTOR")
-                .anyRequest().permitAll())
-            .httpBasic(Customizer.withDefaults());
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/edit/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_DOCTOR")
+                        .requestMatchers("api/management/**").hasAuthority("ROLE_MANAGER")
+                        .anyRequest().permitAll())
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
+                .logout(Customizer.withDefaults());
         return http.build();
     }
 }

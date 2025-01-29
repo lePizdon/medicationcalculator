@@ -3,8 +3,10 @@ package vet.goat.medicationcalculator.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vet.goat.medicationcalculator.entity.Authority;
 import vet.goat.medicationcalculator.entity.VetUser;
 import vet.goat.medicationcalculator.security.VetUserDetailService;
+import vet.goat.medicationcalculator.security.exception.UnsupportedAuthority;
 import vet.goat.medicationcalculator.security.exception.VetUserAlreadyExists;
 import vet.goat.medicationcalculator.security.exception.VetUserDoesNotExist;
 
@@ -48,6 +50,17 @@ public class UserManagementController {
         } catch (VetUserAlreadyExists e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @PostMapping("/users/{userId}/authority")
+    public ResponseEntity<Void> addAuthority(@PathVariable("userId") Long userId,
+                                             @RequestParam("authorityValue") String authorityValue) {
+        try {
+            vetUserDetailService.addAuthority(userId, authorityValue);
+        } catch (VetUserDoesNotExist | UnsupportedAuthority e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/users/edit")

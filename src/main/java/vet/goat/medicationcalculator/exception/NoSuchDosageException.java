@@ -1,4 +1,4 @@
-package vet.goat.medicationcalculator.exceptions;
+package vet.goat.medicationcalculator.exception;
 
 public class NoSuchDosageException extends Exception{
     public NoSuchDosageException(String message){

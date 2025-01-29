@@ -1,4 +1,4 @@
-package vet.goat.medicationcalculator.exceptions;
+package vet.goat.medicationcalculator.exception;
 
 public class ActiveSubstanceNotPresented extends Exception{
     public ActiveSubstanceNotPresented(String message){
