@@ -61,7 +61,7 @@ public class DosageSearchController {
         return ResponseEntity.ok(resultList);
     }
 
-    @GetMapping("/{dosageId}")
+    @GetMapping("/id/{dosageId}")
     public ResponseEntity<Dosage> getDosageById(@PathVariable("dosageId") Long dosageId) {
         try {
             Dosage dosage = dosageService.getDosageById(dosageId).orElseThrow(() ->

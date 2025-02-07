@@ -16,4 +16,7 @@ public interface MedicationRepository extends JpaRepository<Medication, Long> {
 
     @Query(value = "SELECT * FROM medications WHERE name = :name AND injection_type = :type", nativeQuery = true)
     Optional<Medication> getByFullParams(@Param("name") String name, @Param("type") String injectionType);
+
+    @Query(value = "SELECT * FROM medications WHERE injection_type = :type", nativeQuery = true)
+    List<Medication> getByType(@Param("type")String injectionType);
 }

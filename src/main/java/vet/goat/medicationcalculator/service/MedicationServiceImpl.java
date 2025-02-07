@@ -3,6 +3,7 @@ package vet.goat.medicationcalculator.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vet.goat.medicationcalculator.entity.Medication;
+import vet.goat.medicationcalculator.exception.NoSuchDosageException;
 import vet.goat.medicationcalculator.exception.NoSuchMedicationException;
 import vet.goat.medicationcalculator.repository.MedicationRepository;
 
@@ -16,12 +17,6 @@ public class MedicationServiceImpl implements MedicationService {
     @Override
     public List<Medication> getMedicationByName(String name) {
         return repo.getByName(name);
-    }
-
-    @Override
-    public Medication getMedicationByFullParams(String name, String injectionType) throws NoSuchMedicationException {
-        return repo.getByFullParams(name, injectionType).orElseThrow(() ->
-                new NoSuchMedicationException("Medication not found"));
     }
 
     @Override
@@ -42,5 +37,22 @@ public class MedicationServiceImpl implements MedicationService {
     @Override
     public List<Medication> findAll() {
         return repo.findAll();
+    }
+
+
+    @Override
+    public List<Medication> getMedicationByParams(String medicationName, String injectionType)
+            throws NoSuchMedicationException {
+        if (medicationName != null && injectionType != null) {
+
+        return List.of(repo.getByFullParams(medicationName, injectionType).orElseThrow(() ->
+                new NoSuchMedicationException("{medication.get.full.params.null}")));
+        } else if (injectionType == null && medicationName != null) {
+            return repo.getByName(medicationName);
+        } else if (injectionType != null) {
+            return repo.getByType(injectionType);
+        } else {
+            return repo.findAll();
+        }
     }
 }
