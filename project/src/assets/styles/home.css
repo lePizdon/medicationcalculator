@@ -1,0 +1,20 @@
+.home-page {
+    width: 100%;
+    align-content: center;
+    justify-content: center;
+}
+
+.home-page-header {
+    text-align: center;
+}
+
+.home-page-buttons-container {
+    width: 100%;
+    display: flex;
+    gap:20px;
+    justify-content: space-evenly;
+}
+
+.home-page-button {
+    min-width: 45%;
+}

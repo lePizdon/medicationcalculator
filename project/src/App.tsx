@@ -5,9 +5,11 @@ import Navbar from "./pages/Navbar.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import PrivateRoute from "./components/PrivateRoute.tsx";
-import EditingPage from "./pages/EditingPage.tsx";
+import EditingRedirectPage from "./pages/EditingRedirectPage.tsx";
 import {useEffect, useState} from "react";
 import SearchPage from "./pages/SearchPage.tsx";
+import DosageDetail from "./pages/DosageDetail.tsx";
+import MedicationDetail from "./pages/MedicationDetail.tsx";
 
 function App() {
     const [isLoading, setIsLoading] = useState(true);
@@ -28,9 +30,11 @@ function App() {
                 <Route path="/home" element={<HomePage/>}/>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/search" element={<SearchPage />}/>
+                <Route path="/dosage/:id" element={<DosageDetail />}/>
+                <Route path="/medication/:id" element={<MedicationDetail />}/>
                 <Route element={<PrivateRoute/>}>
                     <Route path="/about" element={<AboutPage/>}/>
-                    <Route path="/edit" element={<EditingPage/>}/>
+                    <Route path="/edit" element={<EditingRedirectPage/>}/>
                 </Route>
             </Routes>
         </>

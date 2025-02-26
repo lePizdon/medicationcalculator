@@ -1,0 +1,74 @@
+.search-page-header {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.search-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin: 1em;
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100vw;
+    max-width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+.search-column-left, .search-column-right {
+    width: 250px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #1e1e2f, #2b2b3c);
+    border-radius: 5px;
+    padding: 20px;
+}
+ul {
+    list-style: none; /* Убираем маркеры */
+    padding: 0;
+    margin: 0;
+}
+.search-tab-button {
+    background: linear-gradient(135deg, #29293d, #3a3a4f);
+    color: #4aa3ff;
+    font-weight: bold;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+.search-tab-button:hover {
+    background: linear-gradient(135deg, #3a3a4f, #52526a);
+    box-shadow: 0 0 12px rgba(74, 163, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+.search-tab-button.active {
+    background-color: #007bff;
+    color: #818181;
+}
+
+.search-tab-content-item {
+    color: #cacaca;
+}
+
+.search-tab-content-group-title {
+    color: #4aa3ff;
+}
+
+h1 {
+    color: white;
+    text-align: left;
+    width: 90%;
+}
+
+.search-tab-link {
+    color: #bababa;
+}
