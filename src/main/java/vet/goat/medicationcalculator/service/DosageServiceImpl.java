@@ -18,7 +18,7 @@ public class DosageServiceImpl implements DosageService {
 
     @Override
     public List<Dosage> getDosageByFullParams(String medicationName, String animalType, String injectionType) throws NoSuchDosageException {
-        if (animalType != null && injectionType != null) {
+        if (animalType != null && injectionType != null ) {
             List<Dosage> resultList = new ArrayList<>();
             resultList.add(repo.getByFullParams(medicationName, animalType, injectionType));
             return resultList;

@@ -52,7 +52,7 @@ public class MedicationSearchController {
 
     @GetMapping("/params")
     public ResponseEntity<List<Medication>> getMedicationByParams(@RequestParam(required = false) String medicationName,
-                                                            @RequestParam(required = false) String injectionType) {
+                                                                  @RequestParam(required = false) String injectionType) {
         try {
             List<Medication> result = medicationService.getMedicationByParams(medicationName, injectionType);
             if (result.isEmpty()) {
@@ -60,7 +60,8 @@ public class MedicationSearchController {
             }
             return ResponseEntity.ok(result);
         } catch (NoSuchMedicationException e) {
-            LoggerFactory.getLogger(MedicationSearchController.class);
+            LoggerFactory.getLogger(MedicationSearchController.class).error("Лекарство отсутствует: {}",
+                    e.getMessage(), e);
             return ResponseEntity.noContent().build();
         }
     }
